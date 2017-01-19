@@ -7,3 +7,7 @@
 /pkg/
 /spec/reports/
 /tmp/
+/.DS_store
+/lib/.DS_Store
+/lib/jumanpp_ruby/.DS_Store
+/spec/.DS_store
