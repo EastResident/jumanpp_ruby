@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-### JumanppRuby::Juman.parse
+### `JumanppRuby::Juman.parse`
 
 `parse(text)`method can parse Japanese text as `Array` if first argument only.
 
@@ -49,7 +49,7 @@ end
 # =>["EOS"]
 ```
 
-### String.parse
+### `String.parse`
 
 You can use `parse` method as `String` instance method.
 
