@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require 'jumanpp_ruby/version'
+require 'jumanpp_ruby/string'
 
 module JumanppRuby
   class Juman
-
     require 'open3'
 
     def initialize(**options)
@@ -45,8 +45,4 @@ module JumanppRuby
   end
 end
 
-String.class_eval do
-  def parse(*option)
-    JumanppRuby::Juman.new(*option).parse(self)
-  end
-end
+
