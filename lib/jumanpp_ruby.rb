@@ -20,12 +20,14 @@ module JumanppRuby
       @pipe.puts(sentents)
       responses = []
       while sentent = @pipe.gets
-        responses << sentent.delete('\\').delete('\"')
+        a = sentent.scan(/(?:\\ |[^\s"]|"[^"]*")+/)
+        a.each {|i| i.sub!(/\A"(.*)"\z/, '\\1') }
+        responses << a
         break if sentent =~ /EOS\n/
       end
       if block_given?
-        responses.each { |word| yield word.split }
-      else responses.map { |word| word.split.first }
+        responses.each { |word| yield word }
+      else responses.map { |word| word.first }
       end
     end
 
