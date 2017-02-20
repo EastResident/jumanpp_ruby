@@ -10,6 +10,14 @@ describe JumanppRuby do
     parsed_text = juman.parse('モビルスーツの性能の違いが、戦力の決定的差でないということを教えてやる')
     expect(parsed_text).to eq ["モビルスーツ", "の", "性能", "の", "違い", "が", "、", "戦力", "の", "決定", "的", "差", "で", "ない", "と", "いう", "こと", "を", "教えて", "やる", "EOS"]
   end
+
+  context 'hankaku' do
+    it 'Juman.parse' do
+      juman = JumanppRuby::Juman.new(force_single_path: :true)
+      parsed_text = juman.parse('String')
+      expect(parsed_text).to eq ['Ｓｔｒｉｎｇ', 'EOS']
+    end
+  end
 end
 
 describe String do
