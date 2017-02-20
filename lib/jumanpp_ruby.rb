@@ -6,14 +6,12 @@ module JumanppRuby
   class Juman
     require 'open3'
 
-    def initialize(**options)
-      @option = []
-      @option.tap do |opt|
-        opt << "-B #{options[:beam]}" if options[:beam]
-        opt << '--force-single-path' if options[:force_single_path] == :true
-        opt << '--partial' if options[:partial] == :true
-      end
-      @pipe ||= IO.popen("jumanpp #{@option.join(' ')}".strip, 'r+')
+    def initialize(beam: nil, force_single_path: false, partial: false)
+      argv = ['jumanpp']
+      argv << '--beam' << beam if beam
+      argv << '--force-single-path' if force_single_path
+      argv << '--partial' if partial
+      @pipe = IO.popen(argv, 'r+')
     end
 
     def parse(sentents)
