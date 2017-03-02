@@ -17,7 +17,7 @@ module JumanppRuby
     end
 
     def parse(sentents)
-      @pipe.puts(sentents)
+      @pipe.puts(zh_convert(sentents))
       responses = []
       while sentent = @pipe.gets
         responses << sentent.delete('\\').delete('\"')
@@ -41,6 +41,22 @@ module JumanppRuby
     def self.help
       o, = Open3.capture2('jumanpp -h')
       o.strip
+    end
+
+    private
+
+    def zh_convert str
+      str.tr <<~'STR1',<<~'STR2'
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        abcdefghijklmnopqrstuvwxyz
+        0123456789
+        !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+      STR1
+        ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+        ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ
+        ０１２３４５６７８９
+        ！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜
+      STR2
     end
   end
 end
