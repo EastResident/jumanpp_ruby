@@ -20,6 +20,14 @@ describe JumanppRuby do
       end
     end
   end
+
+  context 'hankaku' do
+    it 'Juman.parse' do
+      juman = JumanppRuby::Juman.new(force_single_path: :true)
+      parsed_text = juman.parse('String')
+      expect(parsed_text).to eq ['Ｓｔｒｉｎｇ', 'EOS']
+    end
+  end
 end
 
 describe String do

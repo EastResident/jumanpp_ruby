@@ -6,18 +6,16 @@ module JumanppRuby
   class Juman
     require 'open3'
 
-    def initialize(**options)
-      @option = []
-      @option.tap do |opt|
-        opt << "-B #{options[:beam]}" if options[:beam]
-        opt << '--force-single-path' if options[:force_single_path] == :true
-        opt << '--partial' if options[:partial] == :true
-      end
-      @pipe ||= IO.popen("jumanpp #{@option.join(' ')}".strip, 'r+')
+    def initialize(beam: nil, force_single_path: false, partial: false)
+      argv = ['jumanpp']
+      argv << '--beam' << beam if beam
+      argv << '--force-single-path' if force_single_path
+      argv << '--partial' if partial
+      @pipe = IO.popen(argv, 'r+')
     end
 
     def parse(sentents)
-      @pipe.puts(sentents)
+      @pipe.puts(zh_convert(sentents))
       responses = []
       while sentent = @pipe.gets
         a = sentent.scan(/(?:\\ |[^\s"]|"[^"]*")+/)
@@ -43,6 +41,22 @@ module JumanppRuby
     def self.help
       o, = Open3.capture2('jumanpp -h')
       o.strip
+    end
+
+    private
+
+    def zh_convert str
+      str.tr <<~'STR1',<<~'STR2'
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        abcdefghijklmnopqrstuvwxyz
+        0123456789
+        !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+      STR1
+        ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+        ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ
+        ０１２３４５６７８９
+        ！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜
+      STR2
     end
   end
 end
