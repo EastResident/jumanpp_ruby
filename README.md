@@ -36,7 +36,7 @@ If you passed Japanese text and `&block` as argument, you can handle Morphologic
 require 'jumanpp_ruby'
 
 juman = JumanppRuby::Juman.new(force_single_path: :true)
-jumanpp.parse('ララァ…私を導いてくれ！') do |word|
+juman.parse('ララァ…私を導いてくれ！') do |word|
   p word
 end
 # =>["ララァ", "ララァ", "ララァ", "名詞", "6", "普通名詞", "1", "*", "0", "*", "0", "自動獲得:Wikipedia", "Wikipediaリダイレクト:ララァ・スン"]
